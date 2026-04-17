@@ -4,11 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Converter</title>
+    <title>Image Converter | Studio</title>
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 
     <style>
-        /* Reset */
+        :root {
+            --bg-color: #050505;
+            --accent-color: #00ff88;
+            --surface-color: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-secondary: #94a3b8;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -16,292 +24,238 @@
         }
 
         body {
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            background: #0c0c0f;
-            color: #fff;
-            scroll-behavior: smooth;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        a {
-            text-decoration: none;
-        }
-
-        /* HERO SECTION */
+        /* HERO SECTION - REPLACED VIDEO WITH GRADIENT MESH */
         .hero {
-            height: 100vh;
+            height: 80vh;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
             text-align: center;
-            overflow: hidden;
-        }
-
-        .hero iframe {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100vw;
-            height: 100vh;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            filter: brightness(0.55) blur(1px);
-            z-index: -2;
-        }
-
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 255, 136, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(0, 200, 255, 0.05) 0%, transparent 40%);
         }
 
         .hero-content {
-            max-width: 850px;
+            max-width: 800px;
             padding: 20px;
             z-index: 2;
         }
 
         .hero h1 {
-            font-size: 4rem;
-            margin-bottom: 1rem;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
             font-weight: 800;
-            line-height: 1.2;
-            text-shadow: 0 6px 25px rgba(0, 0, 0, 0.7);
+            letter-spacing: -0.04em;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #64748b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .hero p {
-            font-size: 1.4rem;
-            margin-bottom: 2rem;
-            opacity: 0.95;
-            text-shadow: 0 3px 12px rgba(0, 0, 0, 0.6);
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
         }
 
         .cta-button {
             display: inline-block;
-            padding: 16px 45px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            border-radius: 50px;
-            background: linear-gradient(90deg, #00c853, #00b140);
-            color: #fff;
-            box-shadow: 0 10px 30px rgba(0, 200, 83, 0.4);
-            transition: all 0.3s ease;
+            padding: 18px 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 100px;
+            background: #ffffff;
+            color: #000000;
+            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+            border: 1px solid #ffffff;
         }
 
         .cta-button:hover {
-            transform: scale(1.08);
-            box-shadow: 0 15px 40px rgba(0, 200, 83, 0.6);
-            background: linear-gradient(90deg, #00b140, #009e36);
+            background: transparent;
+            color: #ffffff;
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
         }
 
         /* FORM SECTION */
         .form-section {
-            padding: 120px 20px;
+            padding: 100px 20px;
             display: flex;
             justify-content: center;
-            align-items: center;
-            background: #0c0c0f;
+            background: var(--bg-color);
             min-height: 100vh;
         }
 
         .form-container {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 50px 35px;
-            max-width: 500px;
+            background: var(--surface-color);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 32px;
+            padding: 60px 40px;
+            max-width: 540px;
             width: 100%;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7);
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: border-color 0.3s ease;
         }
 
         .form-container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            border-color: rgba(0, 255, 136, 0.3);
         }
 
         .form-container img {
-            height: 90px;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.7));
+            height: 100px;
+            margin-bottom: 30px;
+            filter: grayscale(1) brightness(2);
+            opacity: 0.8;
         }
 
         .form-container h2 {
-            font-size: 2rem;
-            margin-bottom: 30px;
-            color: #00c853;
+            font-size: 1.8rem;
+            margin-bottom: 40px;
             font-weight: 700;
+            letter-spacing: -0.02em;
         }
 
-        input[type="file"],
-        select,
-        button {
-            width: 100%;
-            padding: 14px 16px;
-            margin: 10px 0;
-            border-radius: 12px;
-            border: none;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.2s ease;
-        }
-
-        input[type="file"] {
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            cursor: pointer;
-        }
-
-        select {
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            cursor: pointer;
-        }
-
-        input[type="file"]:hover,
-        select:hover {
-            background: rgba(255, 255, 255, 0.1);
+        /* INPUT STYLING */
+        .input-wrapper {
+            text-align: left;
+            margin-bottom: 24px;
         }
 
         label {
             display: block;
-            text-align: left;
-            margin: 15px 0 5px;
-            font-weight: 500;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
-        .checkbox-label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            font-weight: 500;
-            margin-top: 10px;
-        }
-
-        button[type="submit"] {
-            background: linear-gradient(90deg, #00c853, #00b140);
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: #fff;
-            margin-top: 20px;
-            cursor: pointer;
-            box-shadow: 0 8px 20px rgba(0, 200, 83, 0.4);
-            transition: all 0.3s ease;
-        }
-
-        button[type="submit"]:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(0, 200, 83, 0.6);
-            background: linear-gradient(90deg, #00b140, #009e36);
-        }
-
-        @media (max-width: 600px) {
-            .hero h1 {
-                font-size: 2.8rem;
-            }
-
-            .hero p {
-                font-size: 1.1rem;
-            }
-
-            .cta-button {
-                font-size: 1rem;
-                padding: 12px 30px;
-            }
-        }
-
-        option {
-            color: #0c0c0f;
-        }
-
-        .drop-zone {
-            border: 2px dashed rgba(255, 255, 255, 0.3);
+        select {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 30px;
+            color: #fff;
+            font-size: 0.95rem;
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+        }
+
+        select:focus {
+            border-color: var(--accent-color);
+        }
+
+        /* DROP ZONE */
+        .drop-zone {
+            border: 1px dashed var(--border-color);
+            border-radius: 16px;
+            padding: 45px 20px;
             text-align: center;
             cursor: pointer;
-            transition: background 0.2s, border-color 0.2s;
-            margin-bottom: 15px;
-            color: #fff;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        .drop-zone:hover, .drop-zone.dragover {
+            border-color: var(--accent-color);
+            background: rgba(0, 255, 136, 0.02);
         }
 
         .drop-zone p {
-            margin: 0;
-            font-size: 1rem;
-            color: #aaa;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
         }
 
-        .drop-zone.dragover {
-            background: rgba(0, 255, 144, 0.1);
-            border-color: #00ff90;
+        .drop-zone input[type="file"] {
+            display: none;
+        }
+
+        /* CHECKBOX */
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            margin: 20px 0 30px;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-color);
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 16px;
+            background: var(--accent-color);
+            border: none;
+            border-radius: 12px;
+            color: #000;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            transform: scale(1.02);
+            background: #00df76;
+        }
+
+        @media (max-width: 600px) {
+            .form-container { padding: 40px 20px; }
+            .hero h1 { font-size: 2.8rem; }
         }
     </style>
     <script>
-        const dropZone = document.getElementById('drop-zone');
-        const fileInput = dropZone.querySelector('input[type="file"]');
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropZone = document.getElementById('drop-zone');
+            const fileInput = document.getElementById('images');
 
-        dropZone.addEventListener('click', () => fileInput.click());
+            dropZone.addEventListener('click', () => fileInput.click());
 
-        // Handle drag from filesystem
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('dragover');
-        });
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
 
-        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+            dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
 
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
-
-            const files = [];
-            for (let i = 0; i < e.dataTransfer.items.length; i++) {
-                const item = e.dataTransfer.items[i];
-                if (item.kind === 'file') {
-                    files.push(item.getAsFile());
-                } else if (item.kind === 'string' && item.type.startsWith('image/')) {
-                    item.getAsString((dataUrl) => {
-                        // Optional: convert dataUrl to File
-                        fetch(dataUrl)
-                            .then(res => res.blob())
-                            .then(blob => {
-                                const f = new File([blob], 'pasted-image.png', { type: blob.type });
-                                fileInput.files = new DataTransfer().files; // reset first
-                                const dt = new DataTransfer();
-                                dt.items.add(f);
-                                fileInput.files = dt.files;
-                            });
-                    });
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+                if (e.dataTransfer.files.length) {
+                    fileInput.files = e.dataTransfer.files;
+                    updateText(e.dataTransfer.files.length);
                 }
-            }
+            });
 
-            if (files.length) {
-                const dt = new DataTransfer();
-                files.forEach(f => dt.items.add(f));
-                fileInput.files = dt.files;
-            }
-        });
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length) updateText(fileInput.files.length);
+            });
 
-        // Handle paste (CTRL+V) from clipboard
-        dropZone.addEventListener('paste', (e) => {
-            const items = e.clipboardData.items;
-            const files = [];
-            for (let i = 0; i < items.length; i++) {
-                const item = items[i];
-                if (item.kind === 'file') {
-                    files.push(item.getAsFile());
-                }
-            }
-            if (files.length) {
-                const dt = new DataTransfer();
-                files.forEach(f => dt.items.add(f));
-                fileInput.files = dt.files;
+            function updateText(n) {
+                dropZone.querySelector('p').innerText = `${n} file(s) selected`;
+                dropZone.querySelector('p').style.color = "var(--accent-color)";
             }
         });
     </script>
@@ -309,54 +263,56 @@
 
 <body>
 
-    <!-- HERO SECTION -->
     <section class="hero" id="hero">
-        <iframe
-            src="https://www.youtube.com/embed/GJaAeHryyfc?autoplay=1&mute=1&loop=1&playlist=GJaAeHryyfc&controls=0&modestbranding=1&rel=0&playsinline=1"
-            frameborder="0" allow="autoplay; encrypted-media"></iframe>
         <div class="hero-content">
-            <h1>Convert Images Instantly</h1>
-            <p>WEBP • PNG • JPG • Background Removal • Smart Cropping</p>
+            <h1>High Fidelity <br> Image Conversion.</h1>
+            <p>WebP • PNG • JPG • BG Removal</p>
             <a href="#form" class="cta-button">Get Started</a>
         </div>
     </section>
 
-    <!-- FORM SECTION -->
     <section class="form-section" id="form">
         <div class="form-container">
-            <img src="{{ url_for('static', filename='monyet.png') }}" style="height: 15rem;" alt="Monkey Logo">
-            <h2>Image Converter</h2>
+            <img src="{{ url_for('static', filename='monyet.png') }}" alt="Logo">
+            <h2>Image Processor</h2>
 
             <form method="POST" enctype="multipart/form-data">
                 <div class="drop-zone" id="drop-zone">
-                    <p>Drag & Drop Images Here or Click to Upload</p>
+                    <p>Drag & drop images or click to upload</p>
                     <input type="file" name="images" id="images" multiple required>
                 </div>
-                <label for="format">Output Format:</label>
-                <select name="format" id="format">
-                    <option value="webp">WEBP</option>
-                    <option value="png">PNG</option>
-                    <option value="jpg">JPG</option>
-                </select>
 
-                <label for="mode">Mode:</label>
-                <select name="mode" id="mode">
-                    <option value="fit">Fit on Canvas 800x800</option>
-                    <option value="crop">Crop to Square 800x800</option>
-                </select>
+                <div class="input-wrapper">
+                    <label for="format">Export Format</label>
+                    <select name="format" id="format">
+                        <option value="webp">WebP (Optimized)</option>
+                        <option value="png">PNG (Lossless)</option>
+                        <option value="jpg">JPG (Standard)</option>
+                    </select>
+                </div>
 
-                <label for="bg">Background:</label>
-                <select name="bg" id="bg">
-                    <option value="white">White</option>
-                    <option value="transparent">Transparent (PNG/WEBP only)</option>
-                </select>
+                <div class="input-wrapper">
+                    <label for="mode">Crop Mode</label>
+                    <select name="mode" id="mode">
+                        <option value="fit">Fit to Canvas (800x800)</option>
+                        <option value="crop">Center Crop (800x800)</option>
+                    </select>
+                </div>
+
+                <div class="input-wrapper">
+                    <label for="bg">Background</label>
+                    <select name="bg" id="bg">
+                        <option value="white">Solid White</option>
+                        <option value="transparent">Transparent</option>
+                    </select>
+                </div>
 
                 <label class="checkbox-label">
                     <input type="checkbox" name="remove_bg" id="remove_bg">
-                    Remove Image Background
+                    Apply AI Background Removal
                 </label>
 
-                <button type="submit">Convert & Download</button>
+                <button type="submit">Process & Download</button>
             </form>
         </div>
     </section>
